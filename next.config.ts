@@ -1,8 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: 'export', // <--- This is the "Magic Switch"
   images: {
-    unoptimized: true,
+    unoptimized: true, // <--- Required for Static Exports
   },
 };
 

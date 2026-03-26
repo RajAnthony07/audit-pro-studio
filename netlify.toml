@@ -1,6 +1,4 @@
 [build]
+  base = "Final-Audit-App"
   command = "npm run build"
-  publish = ".next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+  publish = "Final-Audit-App/out"

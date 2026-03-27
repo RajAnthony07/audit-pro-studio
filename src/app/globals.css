@@ -1,33 +1,14 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --color-brand-red: #ff4d4d;
-  --color-brand-green: #2ecc71;
-  --color-brand-orange: #f39c12;
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 2, 6, 23;
+  --background-end-rgb: 2, 6, 23;
 }
 
 body {
-  background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
-  color: white;
-  min-height: 100vh;
-}
-
-/* Force the 10% Promo Bar to be Bright Red */
-.promo-bar {
-  background: linear-gradient(90deg, #ff4d4d, #c0392b) !important;
-  color: white !important;
-  font-weight: 800;
-  text-align: center;
-  padding: 12px;
-}
-
-/* Force the Buy Button to be Emerald Green */
-.buy-button {
-  background-color: #2ecc71 !important;
-  box-shadow: 0 0 20px rgba(46, 204, 113, 0.4) !important;
-  transition: transform 0.3s ease;
-}
-
-.buy-button:hover {
-  transform: scale(1.05);
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
 }

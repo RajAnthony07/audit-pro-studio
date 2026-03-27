@@ -3,81 +3,65 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 26, 26, 26;
+  --background-start-rgb: 236, 253, 245; /* ultra light emerald */
+  --background-end-rgb: 240, 253, 244; /* ultra light green */
 }
 
 body {
-  background: white;
+  /* Creating the sophisticated Light Green base gradient */
+  background: linear-gradient(to bottom right, #ecfdf5, #f0fdf4);
   color: #1a1a1a;
   overflow-x: hidden;
+  font-family: 'Inter', system-ui, sans-serif; /* Cleaner font for high-tech look */
 }
 
-/* --- THE RED PULSING BAR --- */
+/* --- THE RED PULSING BAR (Urgency) --- */
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.01);
-    background-color: #dc2626; /* Slightly darker red in middle of pulse */
-  }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.01); background-color: #dc2626; }
 }
 
-/* --- THE ORANGE DROP ZONE GLOW --- */
+/* --- THE ORANGE DROP ZONE GLOW (Functionality) --- */
 .border-dashed {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23FB923CFF' stroke-width='4' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border: none;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-.bg-orange-50 {
-  background-color: #fffaf5;
-  transition: all 0.3s ease;
+.drop-zone-glow:hover {
+  box-shadow: 0 20px 25px -5px rgba(251, 146, 60, 0.15), 0 10px 10px -5px rgba(251, 146, 60, 0.1);
+  transform: translateY(-2px);
 }
 
-.bg-orange-50:hover {
-  background-color: #fff4ed;
-  box-shadow: 0 20px 25px -5px rgba(251, 146, 60, 0.1), 0 10px 10px -5px rgba(251, 146, 60, 0.04);
-}
-
-/* --- THE GREEN BUTTON SHINE --- */
-.bg-green-500 {
+/* --- THE GREEN BUTTON SHINE (Conversion) --- */
+.btn-green-glow {
+  box-shadow: 0 4px 14px 0 rgba(34, 197, 94, 0.4);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 14px 0 rgba(34, 197, 94, 0.39);
 }
 
-.bg-green-500::after {
+.btn-green-glow::after {
   content: "";
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.3);
   display: block;
   position: absolute;
-  top: 0;
-  left: -100px;
-  width: 50px;
-  height: 100%;
+  top: 0; left: -100px;
+  width: 50px; height: 100%;
   transform: skewX(-15deg);
   transition: none;
 }
 
-.bg-green-500:hover::after {
+.btn-green-glow:hover::after {
   left: 110%;
-  transition: all 0.6s ease;
+  transition: all 0.7s ease;
 }
 
-/* --- TYPOGRAPHY --- */
-h1, h2 {
-  letter-spacing: -0.05em;
-}
-
-.underline {
-  text-underline-offset: 8px;
-  text-decoration-thickness: 4px;
-}
+/* TYPOGRAPHY */
+h1, h2, h3 { letter-spacing: -0.05em; }
+.tracking-tightest { letter-spacing: -0.07em; }

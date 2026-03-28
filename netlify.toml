@@ -1,4 +1,0 @@
-[build]
-  base = "Final-Audit-App"
-  command = "npm run build"
-  publish = "Final-Audit-App/out"

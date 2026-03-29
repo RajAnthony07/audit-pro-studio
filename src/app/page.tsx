@@ -9,7 +9,7 @@ export default function AuditProStudio() {
   const [isUnlocked, setIsUnlocked] = useState(false);
 
   // REPLACE THIS with your actual Cloudflare Worker URL
-  const API_URL = "https://your-worker-name.workers.dev/audit";
+  const API_URL = "https://audit-pro-api.irdya23anthony24.workers.dev";
   
   // REPLACE THIS with your actual Marketplace Link (LemonSqueezy, Gumroad, etc.)
   const MARKETPLACE_LINK = "https://your-chosen-marketplace.com/buy";

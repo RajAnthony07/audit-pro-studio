@@ -65,9 +65,22 @@ export default function AuditProStudio() {
         {!results ? (
           <div style={{ textAlign: 'center', border: '2px dashed #065f46', padding: '40px', borderRadius: '10px' }}>
             <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} style={{ marginBottom: '20px', display: 'block', margin: '0 auto' }} />
-            <button onClick={handleStartScan} style={{ width: '100%', padding: '15px', backgroundColor: '#10b981', color: 'white', fontWeight: 'bold', borderRadius: '8px', cursor: 'pointer', border: 'none' }}>
-              {isScanning ? "SCANNING STUDIO ENGINE..." : "START AUTHENTIC AUDIT"}
-            </button>
+            <button 
+  onClick={() => file ? handleStartScan() : null} 
+  style={{ 
+    width: '100%', 
+    padding: '15px', 
+    backgroundColor: '#10b981', 
+    color: 'white', 
+    fontWeight: 'bold', 
+    borderRadius: '8px', 
+    border: 'none',
+    cursor: file ? 'pointer' : 'not-allowed', 
+    opacity: file ? 1 : 0.7 
+  }}
+>
+  {isScanning ? "SCANNING STUDIO ENGINE..." : "START AUTHENTIC AUDIT"}
+</button>
           </div>
         ) : (
           <div style={{ animation: 'fadeIn 0.5s' }}>

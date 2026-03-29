@@ -130,9 +130,24 @@ export default function AuditProStudio() {
               </div>
             )}
             
-            <button onClick={() => {setResults(null); setIsUnlocked(false);}} style={{ width: '100%', background: 'transparent', border: '1px solid #065f46', color: '#34d399', padding: '10px', marginTop: '20px', cursor: 'pointer' }}>
-              RE-SCAN NEW FILE
-            </button>
+            <button 
+  onClick={() => {
+    setResults(null); 
+    setIsUnlocked(false); 
+    setFile(null); 
+  }} 
+  style={{ 
+    width: '100%', 
+    background: 'transparent', 
+    border: '1px solid #065f46', 
+    color: '#34d399', 
+    padding: '10px', 
+    marginTop: '20px', 
+    cursor: 'pointer' 
+  }}
+>
+  RE-SCAN NEW FILE
+</button>
           </div>
         )}
         

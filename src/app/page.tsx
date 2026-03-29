@@ -8,15 +8,35 @@ export default function AuditProStudio() {
   const [results, setResults] = useState<any>(null);
   const [isUnlocked, setIsUnlocked] = useState(false);
 
+  // REPLACE THIS with your actual Cloudflare Worker URL
+  const API_URL = "https://your-worker-name.workers.dev/audit";
+  
+  // REPLACE THIS with your actual Marketplace Link (LemonSqueezy, Gumroad, etc.)
+  const MARKETPLACE_LINK = "https://your-chosen-marketplace.com/buy";
+
   const handleStartScan = async () => {
     if (!file) return alert("Please choose a file first!");
     setIsScanning(true);
+    
     try {
-      const response = await fetch('/api/audit', { method: 'POST' });
+      // Logic to send the real file to your API
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(API_URL, { 
+        method: 'POST', 
+        body: formData 
+      });
+
+      if (!response.ok) throw new Error("API Response Error");
+      
       const data = await response.json();
+      
+      // The API should return: malwareRisk, aiProbability, finalScore, and fullReport (array of 10 points)
       setResults(data);
     } catch (error) {
       console.error("Scan failed", error);
+      alert("System Error: Could not connect to the Audit Engine. Please check your API URL.");
     } finally {
       setIsScanning(false);
     }
@@ -24,7 +44,7 @@ export default function AuditProStudio() {
 
   const handleLogin = () => {
     const key = prompt("Enter your 10-Digit License Key:");
-    if (key === "STUDIO-PRO-2026") { // You can give this key to buyers
+    if (key === "STUDIO-PRO-2026") { 
       setIsUnlocked(true);
       alert("License Verified: Full 10-Point Audit Active");
     } else {
@@ -51,15 +71,15 @@ export default function AuditProStudio() {
           </div>
         ) : (
           <div style={{ animation: 'fadeIn 0.5s' }}>
-            {/* INITIAL 4 POINTS */}
+            {/* INITIAL 4 POINTS (NOW DYNAMIC FROM API) */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
               <div style={{ padding: '12px', background: '#064e3b', borderRadius: '8px', border: '1px solid #065f46' }}>
                 <span style={{ fontSize: '10px', color: '#34d399' }}>MALWARE</span>
-                <div style={{ color: '#10b981', fontWeight: 'bold' }}>{results.malwareRisk}</div>
+                <div style={{ color: '#10b981', fontWeight: 'bold' }}>{results.malwareRisk || "CLEAN"}</div>
               </div>
               <div style={{ padding: '12px', background: '#064e3b', borderRadius: '8px', border: '1px solid #065f46' }}>
                 <span style={{ fontSize: '10px', color: '#34d399' }}>AI SHIELD</span>
-                <div style={{ fontWeight: 'bold' }}>{results.aiProbability}</div>
+                <div style={{ fontWeight: 'bold' }}>{results.aiProbability || "0%"}</div>
               </div>
             </div>
 
@@ -74,19 +94,16 @@ export default function AuditProStudio() {
               <div style={{ background: '#064e3b', padding: '20px', borderRadius: '10px', border: '1px solid #f59e0b', marginBottom: '20px' }}>
                 <h4 style={{ color: '#f59e0b', margin: '0 0 10px 0', fontSize: '14px' }}>FULL 10-POINT REPORT UNLOCKED:</h4>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '13px', color: '#34d399', lineHeight: '1.8' }}>
-                  <li>✓ Metadata Integrity: <span style={{ color: 'white' }}>SCRUBBED</span></li>
-                  <li>✓ Trojan Script Check: <span style={{ color: 'white' }}>NEGATIVE</span></li>
-                  <li>✓ Macro-Virus Scan: <span style={{ color: 'white' }}>CLEAR</span></li>
-                  <li>✓ GDPR Compliance: <span style={{ color: 'white' }}>VERIFIED</span></li>
-                  <li>✓ Source Authenticity: <span style={{ color: 'white' }}>100%</span></li>
-                  <li>✓ SSL Encryption: <span style={{ color: 'white' }}>ACTIVE</span></li>
+                  {results.fullReport && results.fullReport.map((point: string, index: number) => (
+                    <li key={index}>✓ {point}</li>
+                  ))}
                 </ul>
                 <button style={{ width: '100%', marginTop: '15px', padding: '10px', background: '#10b981', color: 'black', fontWeight: 'bold', border: 'none', borderRadius: '5px' }}>DOWNLOAD PDF CERTIFICATE</button>
               </div>
             ) : (
               <div style={{ textAlign: 'center' }}>
                 <button 
-                  onClick={() => window.open('https://YOUR_MARKETPLACE_LINK', '_blank')}
+                  onClick={() => window.open(MARKETPLACE_LINK, '_blank')}
                   style={{ width: '100%', padding: '15px', backgroundColor: '#f59e0b', color: '#000', fontWeight: 'bold', borderRadius: '8px', cursor: 'pointer', border: 'none', marginBottom: '15px' }}
                 >
                   UNLOCK FULL 10-POINT REPORT ($179)

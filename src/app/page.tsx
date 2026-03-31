@@ -21,21 +21,25 @@ export default function AuditProStudio() {
     
     try {
       const formData = new FormData();
+      // Only send the file to avoid overwhelming the basic worker
       formData.append('file', file);
-      formData.append('filename', file.name); // This helps the AI identify the file
 
       const response = await fetch(API_URL, { 
         method: 'POST', 
+        // Note: We do NOT set headers here; the browser handles it for FormData
         body: formData 
       });
 
-      if (!response.ok) throw new Error("API Response Error");
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server Error: ${response.status}`);
+      }
       
       const data = await response.json();
       setResults(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Scan failed", error);
-      alert("System Error: Could not connect to the Audit Engine. Please check your API URL.");
+      alert(`Audit Failed: ${error.message}. Ensure your Cloudflare Worker is deployed.`);
     } finally {
       setIsScanning(false);
     }

@@ -8,20 +8,21 @@ export default function AuditProStudio() {
   const [results, setResults] = useState<any>(null);
   const [isUnlocked, setIsUnlocked] = useState(false);
 
-  // REPLACE THIS with your actual Cloudflare Worker URL
+  // YOUR CLOUDFLARE WORKER URL
   const API_URL = "https://audit-pro-api.irdya23anthony24.workers.dev";
   
-  // REPLACE THIS with your actual Marketplace Link (LemonSqueezy, Gumroad, etc.)
+  // YOUR GUMROAD/MARKETPLACE LINK
   const MARKETPLACE_LINK = "https://your-chosen-marketplace.com/buy";
 
+  // UPDATED: This function now sends the filename to help the AI stay consistent
   const handleStartScan = async () => {
     if (!file) return alert("Please choose a file first!");
     setIsScanning(true);
     
     try {
-      // Logic to send the real file to your API
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('filename', file.name); // This helps the AI identify the file
 
       const response = await fetch(API_URL, { 
         method: 'POST', 
@@ -31,8 +32,6 @@ export default function AuditProStudio() {
       if (!response.ok) throw new Error("API Response Error");
       
       const data = await response.json();
-      
-      // The API should return: malwareRisk, aiProbability, finalScore, and fullReport (array of 10 points)
       setResults(data);
     } catch (error) {
       console.error("Scan failed", error);
@@ -66,25 +65,24 @@ export default function AuditProStudio() {
           <div style={{ textAlign: 'center', border: '2px dashed #065f46', padding: '40px', borderRadius: '10px' }}>
             <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} style={{ marginBottom: '20px', display: 'block', margin: '0 auto' }} />
             <button 
-  onClick={() => file ? handleStartScan() : null} 
-  style={{ 
-    width: '100%', 
-    padding: '15px', 
-    backgroundColor: '#10b981', 
-    color: 'white', 
-    fontWeight: 'bold', 
-    borderRadius: '8px', 
-    border: 'none',
-    cursor: file ? 'pointer' : 'not-allowed', 
-    opacity: file ? 1 : 0.7 
-  }}
->
-  {isScanning ? "SCANNING STUDIO ENGINE..." : "START AUTHENTIC AUDIT"}
-</button>
+              onClick={() => file ? handleStartScan() : null} 
+              style={{ 
+                width: '100%', 
+                padding: '15px', 
+                backgroundColor: '#10b981', 
+                color: 'white', 
+                fontWeight: 'bold', 
+                borderRadius: '8px', 
+                border: 'none',
+                cursor: file ? 'pointer' : 'not-allowed', 
+                opacity: file ? 1 : 0.7 
+              }}
+            >
+              {isScanning ? "SCANNING STUDIO ENGINE..." : "START AUTHENTIC AUDIT"}
+            </button>
           </div>
         ) : (
           <div style={{ animation: 'fadeIn 0.5s' }}>
-            {/* INITIAL 4 POINTS (NOW DYNAMIC FROM API) */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
               <div style={{ padding: '12px', background: '#064e3b', borderRadius: '8px', border: '1px solid #065f46' }}>
                 <span style={{ fontSize: '10px', color: '#34d399' }}>MALWARE</span>
@@ -96,13 +94,11 @@ export default function AuditProStudio() {
               </div>
             </div>
 
-            {/* RESULTS BANNER */}
             <div style={{ backgroundColor: '#065f46', padding: '20px', borderRadius: '10px', textAlign: 'center', marginBottom: '20px' }}>
               <div style={{ fontSize: '36px', fontWeight: 'bold' }}>{results.finalScore}%</div>
               <div style={{ fontSize: '12px', color: '#34d399' }}>FINAL STUDIO SCORE</div>
             </div>
 
-            {/* REMAINING 6 POINTS (REVEALED ON UNLOCK) */}
             {isUnlocked ? (
               <div style={{ background: '#064e3b', padding: '20px', borderRadius: '10px', border: '1px solid #f59e0b', marginBottom: '20px' }}>
                 <h4 style={{ color: '#f59e0b', margin: '0 0 10px 0', fontSize: '14px' }}>FULL 10-POINT REPORT UNLOCKED:</h4>
@@ -111,7 +107,22 @@ export default function AuditProStudio() {
                     <li key={index}>✓ {point}</li>
                   ))}
                 </ul>
-                <button style={{ width: '100%', marginTop: '15px', padding: '10px', background: '#10b981', color: 'black', fontWeight: 'bold', border: 'none', borderRadius: '5px' }}>DOWNLOAD PDF CERTIFICATE</button>
+                <button 
+  onClick={() => window.print()}
+  style={{ 
+    width: '100%', 
+    marginTop: '15px', 
+    padding: '10px', 
+    background: '#10b981', 
+    color: 'black', 
+    fontWeight: 'bold', 
+    border: 'none', 
+    borderRadius: '5px',
+    cursor: 'pointer' 
+  }}
+>
+  DOWNLOAD PDF CERTIFICATE
+</button>
               </div>
             ) : (
               <div style={{ textAlign: 'center' }}>
@@ -131,23 +142,15 @@ export default function AuditProStudio() {
             )}
             
             <button 
-  onClick={() => {
-    setResults(null); 
-    setIsUnlocked(false); 
-    setFile(null); 
-  }} 
-  style={{ 
-    width: '100%', 
-    background: 'transparent', 
-    border: '1px solid #065f46', 
-    color: '#34d399', 
-    padding: '10px', 
-    marginTop: '20px', 
-    cursor: 'pointer' 
-  }}
->
-  RE-SCAN NEW FILE
-</button>
+              onClick={() => {
+                setResults(null); 
+                setIsUnlocked(false); 
+                setFile(null); 
+              }} 
+              style={{ width: '100%', background: 'transparent', border: '1px solid #065f46', color: '#34d399', padding: '10px', marginTop: '20px', cursor: 'pointer' }}
+            >
+              RE-SCAN NEW FILE
+            </button>
           </div>
         )}
         

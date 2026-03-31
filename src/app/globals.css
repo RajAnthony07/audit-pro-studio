@@ -36,3 +36,22 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out forwards;
 }
+@media print {
+  /* Hides the buttons and input fields on the PDF */
+  button, input, span, .no-print {
+    display: none !important;
+  }
+
+  /* Makes the PDF look like a professional white certificate */
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  div {
+    background-color: white !important;
+    color: black !important;
+    border-color: #000 !important;
+    box-shadow: none !important;
+  }
+}
